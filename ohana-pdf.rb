@@ -7,13 +7,14 @@
 # i.e : ruby ohana-pdf.rb 51a9fd0328217f89770001b2
 # ------------------------------------------------
 # TODOS
-# Set CONSTANT for API URL
 # Remove special character from PDF filename
 # ------------------------------------------------
 
 require 'httparty'
 require 'active_support'
 require 'prawn'
+
+API_URL = "http://ohanapi.herokuapp.com/api/organizations/"
 
 def pdf_body_print(obj)
   output = ""
@@ -27,7 +28,12 @@ def pdf_body_print(obj)
     end
   elsif obj.class == Hash
     obj.each_with_index do |(key, value), index|
-      output << "#{ActiveSupport::Inflector.humanize(key).upcase}: #{value}"
+      if value.class == Array
+        output << "#{ActiveSupport::Inflector.humanize(key)}: "
+        output << pdf_body_print(value)
+      else
+        output << "#{ActiveSupport::Inflector.humanize(key)}: #{value}"
+      end
       output << ", " if (index != obj.length-1)
     end
   else
@@ -42,7 +48,7 @@ end
 # ------------------------------------------------
 
 # FETCH JSON
-@fetch = HTTParty.get("http://ohanapi.herokuapp.com/api/organizations/#{ARGV[0]}")
+@fetch = HTTParty.get("#{API_URL}#{ARGV[0]}")
 
 # GENERATE PDF
 Prawn::Document.generate("#{@fetch["response"]["name"] || ARGV[0]}.pdf") do |pdf|
