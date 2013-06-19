@@ -1,7 +1,7 @@
 ohana-pdf
 =========
 
-Generator PDFs from the Ohana API
+Generates PDFs from the [Ohana API](https://github.com/codeforamerica/ohana-api)
 
 ## Contributing
 
