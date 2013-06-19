@@ -7,7 +7,7 @@
 # i.e : ruby ohana-pdf.rb 51a9fd0328217f89770001b2
 # ------------------------------------------------
 # TODOS
-# Remove special character from PDF filename
+# Yippie none!
 # ------------------------------------------------
 
 require 'httparty'
@@ -51,7 +51,9 @@ end
 @fetch = HTTParty.get("#{API_URL}#{ARGV[0]}")
 
 # GENERATE PDF
-Prawn::Document.generate("#{@fetch["response"]["name"] || ARGV[0]}.pdf") do |pdf|
+# Strip out non-ascii characters and stops
+@safe_file_name = @fetch["response"]["name"].gsub(/[^0-9A-Za-z.\-]/, '_').gsub('.','') || ARGV[0]
+Prawn::Document.generate("#{@safe_file_name}.pdf") do |pdf|
 
   # PDF headings
   pdf.pad(20) { 
