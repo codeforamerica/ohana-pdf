@@ -23,4 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "httparty"
   spec.add_development_dependency "active_support"
   spec.add_development_dependency "prawn"
+
+  spec.add_development_dependency "rspec", ">= 2.11"
+  spec.add_development_dependency "coveralls"
+  spec.add_development_dependency "simplecov"
 end

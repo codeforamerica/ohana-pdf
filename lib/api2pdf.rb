@@ -3,7 +3,7 @@ require 'httparty'
 require 'active_support'
 require 'prawn'
 
-class API2PDF
+module API2PDF
   class << self
 
     def titlize(pdf, text)
